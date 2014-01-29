@@ -1,33 +1,22 @@
 package com.github.kija.interpreter;
 
 import com.github.kija.compiler.Type;
-import com.github.kija.parser.Parser;
 import com.github.kija.parser.ast.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Interpreter implements ExprVisitor<Map<String, Var>, Value> {
-  private final Script script;
   private final String[] args;
   private final List<Use> uses;
   private final List<Const> consts;
   private final List<Data> datas;
   private final Map<String, Function> functions;
 
-  public Interpreter(Path scriptPath, String[] args) throws IOException {
-    //FIXME, close() is not called on the reader !
-    // the interpreter should be initialized with a Script, not a scriptPath
-    // so this code should be moved in the code that call the Interpreter constructor
-    BufferedReader reader =
-        Files.newBufferedReader(scriptPath, StandardCharsets.UTF_8); //FIXME, newBufferedReader can take 1 argument
-    script    = Parser.parse(reader);
-
+  public Interpreter(Script script, String[] args) throws IOException {
     this.args = args;
     consts    = script.getConsts();
     datas     = script.getDatas();
