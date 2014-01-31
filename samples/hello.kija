@@ -6,3 +6,9 @@ def main(args):
 
   bar = 9000
   print bar
+
+  i = 0
+  while (i > 10):
+    print i
+    i = i + 1
+  end

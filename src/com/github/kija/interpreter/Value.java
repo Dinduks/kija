@@ -15,6 +15,10 @@ public class Value {
     return type;
   }
 
+  public Object getValue() {
+    return value;
+  }
+
   @Override
   public String toString() {
     return value.toString();

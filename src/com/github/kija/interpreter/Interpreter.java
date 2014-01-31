@@ -4,6 +4,7 @@ import com.github.kija.compiler.Type;
 import com.github.kija.parser.ast.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,29 @@ public class Interpreter implements ExprVisitor<Map<String, Var>, Value> {
 
   @Override
   public Value visitBinary(BinaryExpr expr, Map<String, Var> vars) {
+    System.err.println(expr.getExpr());
+    System.err.println(expr.getExpr2());
+    System.err.println(expr.getKind());
+    Value expr1 = expr.getExpr().accept(this, vars);
+    Value expr2 = expr.getExpr2().accept(this, vars);
+    switch (expr.getKind()) {
+      case EQ:
+        return new Value(Type.BOOL, null);
+      case NE:
+        break;
+      case LT:
+        break;
+      case LE:
+        break;
+      case GT:
+        break;
+      case GE:
+        break;
+      case BAND:
+        break;
+      case BOR:
+        break;
+    }
     return null;
   }
 
@@ -202,6 +226,10 @@ public class Interpreter implements ExprVisitor<Map<String, Var>, Value> {
 
   @Override
   public Value visitWhile(WhileExpr expr, Map<String, Var> vars) {
+    Value condition = expr.getCondition().accept(this, vars);
+    if ((boolean) condition.getValue()) {
+      expr.getBody().accept(this, vars);
+    }
     return null;
   }
 }
