@@ -79,12 +79,12 @@ public class Interpreter implements ExprVisitor<Map<String, Var>, Value> {
 
   @Override
   public Value visitBlock(BlockExpr expr, Map<String, Var> vars) {
-    // FIXME, does a block create a new HashMap ??
+    Map<String, Var> blockMap = new BlockVarMap<>(vars);
+    Value value = null;
     for (Expr instr : expr.getInstructions()) {
-      instr.accept(this, vars);
+      value = instr.accept(this, blockMap);
     }
-    //FIXME, the value of a block is the value of the last expression of a block
-    return null;
+    return value;
   }
 
   @Override
@@ -169,7 +169,7 @@ public class Interpreter implements ExprVisitor<Map<String, Var>, Value> {
     Value argument = parameter.accept(this, vars);
     System.out.println(argument);
     
-    return null;   //FIXME, I don'think it should return null !
+    return argument;
   }
 
   @Override
